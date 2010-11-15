@@ -12,5 +12,5 @@ include
 lib
 man
 pysqlite2-doc
-src/settings.py
+s3uper/settings.py
 
