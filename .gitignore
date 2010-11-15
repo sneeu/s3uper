@@ -1,0 +1,16 @@
+*.db
+*.DS_Store
+*.pyc
+*,cover
+*~
+.coverage
+._*
+bin
+coverage
+distribute-*
+include
+lib
+man
+pysqlite2-doc
+src/settings.py
+
