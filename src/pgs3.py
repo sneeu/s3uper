@@ -1,4 +1,6 @@
+import datetime
 import mimetypes
+from optparse import OptionParser
 import os.path
 import sys
 import S3
@@ -32,10 +34,24 @@ def usage():
     print """cat somefile | python pgs3.py somefile.ext"""
 
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        usage()
-        sys.exit()
+def main():
+    parser = OptionParser()
+    parser.add_option('-f', '--filename', dest='filename',
+                      help="write stdin as FILENAME", metavar="FILENAME")
+    parser.add_option('-t', '--timestamp', action="store_true", dest='timestamp',
+                      help="add a timestamp to the filename", default=False)
 
-    filename = sys.argv[1]
+    options, args = parser.parse_args()
+
+    filename = options.filename
+
+    if options.timestamp:
+        root, ext = os.path.splitext(filename)
+        now = datetime.datetime.now()
+        timestamp = now.strftime('%Y-%m-%dT%H%M%S')
+        filename = '%s.%s%s' % (root, timestamp, ext)
     upload_s3(filename)
+
+
+if __name__ == "__main__":
+    main()
